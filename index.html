@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MoodStrip – Vintage Photobooth</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="style.css">
+
+<!-- QR Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<div class="scanlines"></div>
+
+<header>
+  <div class="logo-eyebrow">est. mmxxv · analog memories · digital soul</div>
+  <div class="logo">Mood<span>Strip</span></div>
+  <div class="logo-sub">A vintage photobooth experience</div>
+</header>
+
+<!-- THEME SELECTOR -->
+<div class="theme-bar">
+  <button class="theme-btn active" data-theme="default" onclick="setTheme('default')">
+    <span class="theme-dot" style="background:#d4b478"></span>Golden Hour
+  </button>
+  <button class="theme-btn" data-theme="hollywood" onclick="setTheme('hollywood')">
+    <span class="theme-dot" style="background:#e8e8e8"></span>Old Hollywood
+  </button>
+  <button class="theme-btn" data-theme="bollywood" onclick="setTheme('bollywood')">
+    <span class="theme-dot" style="background:#f5a623"></span>90s Bollywood
+  </button>
+  <button class="theme-btn" data-theme="indie" onclick="setTheme('indie')">
+    <span class="theme-dot" style="background:#9caf88"></span>Indie Film
+  </button>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: CAMERA -->
+  <div class="camera-section">
+
+    <div class="section-label">Viewfinder</div>
+
+    <div class="viewfinder" id="viewfinder">
+      <div class="corner-tr"></div>
+      <div class="corner-bl"></div>
+
+      <video id="video" autoplay playsinline muted></video>
+
+      <div class="video-filter-overlay" id="filterOverlay"></div>
+
+      <div class="countdown-display" id="countdownDisplay">
+        <div class="countdown-number" id="countdownNum"></div>
+      </div>
+
+      <div class="flash-overlay" id="flashOverlay"></div>
+
+      <div class="camera-status" id="cameraStatus">
+        <span class="rec-dot"></span>Ready
+      </div>
+
+      <div class="cam-error" id="camError">
+        <span class="err-icon">⊘</span>
+        <p>Camera access denied or unavailable.<br>Please allow camera permission and refresh.</p>
+        <button class="btn" onclick="initCamera()">Retry</button>
+      </div>
+    </div>
+
+    <!-- THUMBNAILS -->
+    <div class="thumbs">
+      <div class="thumb-cell" id="thumb0">01</div>
+      <div class="thumb-cell" id="thumb1">02</div>
+      <div class="thumb-cell" id="thumb2">03</div>
+      <div class="thumb-cell" id="thumb3">04</div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="capture-progress">
+      <div class="progress-dot" id="dot0">01</div>
+      <div class="progress-dot" id="dot1">02</div>
+      <div class="progress-dot" id="dot2">03</div>
+      <div class="progress-dot" id="dot3">04</div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <button class="btn btn-primary" id="startBtn" onclick="startSession()">▶ Start</button>
+      <button class="btn" id="generateBtn" onclick="generateStrip()" disabled>Generate Strip</button>
+      <button class="btn btn-danger" onclick="resetSession()">Reset</button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: STRIP -->
+  <div class="strip-panel">
+
+    <div class="section-label">Photo Strip</div>
+
+    <div class="strip-container">
+      <div class="strip-placeholder" id="stripPlaceholder">
+        Capture 4 photos → Generate strip
+      </div>
+
+      <canvas id="stripCanvas"></canvas>
+
+      <div class="generating-overlay" id="generatingOverlay">
+        Developing film…
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="action-panel">
+      <button class="btn" id="downloadBtn" onclick="downloadStrip()" disabled>
+        Download
+      </button>
+
+      <button class="btn" id="qrBtn" onclick="generateQR()" disabled>
+        QR
+      </button>
+
+      <div id="qrBox" class="qr-box">
+        <div id="qrcode"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Hidden canvas -->
+<canvas id="captureCanvas" style="display:none"></canvas>
+
+<!-- SCRIPTS (ORDER MATTERS, DO NOT TOUCH RANDOMLY) -->
+<script src="js/state.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/capture.js"></script>
+<script src="js/strip.js"></script>
+<script src="js/qr.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>
